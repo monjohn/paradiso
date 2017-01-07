@@ -1,5 +1,5 @@
 (set-env!
- :source-paths    #{"src/cljs"}
+ :source-paths    #{"src"}
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs          "1.7.228-1"  :scope "test"]
                  [adzerk/boot-cljs-repl     "0.3.0"      :scope "test"]
@@ -9,7 +9,7 @@
                  [org.clojure/tools.nrepl   "0.2.12"     :scope "test"]
                  [weasel                    "0.7.0"      :scope "test"]
                  [org.clojure/clojurescript "1.7.228"]
-                 [cljsjs/inferno "1.0.0-beta22"]])
+                 [cljsjs/inferno "1.0.3-0"]])
 
 (require
  '[adzerk.boot-cljs      :refer [cljs]]
@@ -20,8 +20,8 @@
 (deftask build []
   (comp (speak)
 
-        (cljs)
-        ))
+        (cljs)))
+
 
 (deftask run []
   (comp (serve)
@@ -36,7 +36,7 @@
 
 (deftask development []
   (task-options! cljs {:optimizations :none :source-map true}
-                 reload {:on-jsload 'inferno-test.app/init})
+                 reload {:on-jsload 'paradiso.app/init})
   identity)
 
 (deftask dev

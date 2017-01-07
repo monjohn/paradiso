@@ -1,3 +1,3 @@
-{:require  [inferno-test.app]
- :init-fns [inferno-test.app/init]
+{:require  [paradiso.app]
+ :init-fns [paradiso.app/init]
  :compiler-options {:asset-path "js/app.out"}}
