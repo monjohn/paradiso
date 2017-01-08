@@ -1,6 +1,8 @@
 (ns paradiso.core
   (:require
-    [cljs.inferno]))
+    [cljs.inferno])
+  (:require-macros
+    [paradiso.dom :refer [define-tags define-svg-tags]]))
 
 (enable-console-print!)
 
@@ -22,6 +24,25 @@
 ; Inferno.createVNode()
 ;   flags, type, [props], [...children], [events], [key], [ref],[isNormalized]
 
+(define-tags
+    a abbr address area article aside audio b base bdi bdo big blockquote body br
+    button canvas caption cite code col colgroup data datalist dd del details dfn
+    div dl dt em embed fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6
+    head header hr html i iframe img ins kbd keygen label legend li link main
+    mark menu menuitem  meter nav noscript object ol optgroup option output
+    p param pre progress q rp rt ruby s samp script section small source
+    span strong style sub summary sup table tbody td tfoot th thead
+    title tr track u ul var video wbr)
+
+; map meta time
+
+(define-svg-tags
+  circle clipPath defs ellipse g image line
+  linearGradient  path pattern polygon polyline radialGradient rect stop svg
+  text tspan)
+
+  ; mask)
+
 (defn component [component props hooks]
   (let [hooks (clj->js
                 (merge {:onComponentShouldUpdate (fn [last next] (not= last next))}
@@ -30,27 +51,6 @@
 
 (defn- builder [type name props & [children]]
   (js/Inferno.createVNode (get flags type) name (clj->js props) (clj->js children) nil nil nil))
-
-(defn ul [props & children]
-  (builder :html-element "ol" props children))
-
-(defn li [props & children]
-  (builder :html-element "li" props children))
-
-(defn div [props & children]
-  (builder :html-element "div" props children))
-
-(defn p [props & children]
-  (builder :html-element "p" props children))
-
-(defn button [props & children]
-  (builder :html-element "button" props children))
-
-(defn span [props & children]
-  (builder :html-element "span" props children))
-
-(defn h1 [props & [children]]
-  (builder :html-element "h1" props children))
 
 (defn textarea [props & children]
   (builder :textarea-element "textarea" props children))
@@ -61,20 +61,5 @@
 (defn select [props & [children]]
   (builder :select-element "select" props children))
 
-(defn text [props & children]
+(defn text-tag [props & children]
   (builder :text "span" props children))
-
-; (dom/define-tags
-;   a abbr address area article aside audio b base bdi bdo big blockquote body br
-;   button canvas caption cite code col colgroup data datalist dd del details dfn
-;   div dl dt em embed fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6
-;   head header hr html i iframe img ins kbd keygen label legend li link main
-;   map mark menu menuitem meta meter nav noscript object ol optgroup option output
-;   p param pre progress q rp rt ruby s samp script section small source
-;   span strong style sub summary sup table tbody td tfoot th thead time
-;   title tr track u ul var video wbr)
-
-; (dm/define-svg-tags
-;   circle clipPath defs ellipse g image line
-;   linearGradient mask path pattern polygon polyline radialGradient rect stop svg
-;   text tspan)

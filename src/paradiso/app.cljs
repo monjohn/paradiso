@@ -29,6 +29,7 @@
     (d/input {:placeholder "Write here"})
     (d/button {:onClick callback} "Push Die Button")
     (d/p {} "Count:" count)
+    (d/a {:href "#farthing"} "Link")
     (Clock time)
     (apply d/ul {}
       (for [num (take 10 (range 11))]
